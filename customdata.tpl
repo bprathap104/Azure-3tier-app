@@ -12,7 +12,7 @@ sudo sed 's/database_name_here/db-wordpress/g' /var/www/html/wp-config.php -i
 sudo sed 's/username_here/wordpress@team2sql-whynot/g' /var/www/html/wp-config.php -i
 sudo sed 's/password_here/W0rdpr3ss@p4ss/g' /var/www/html/wp-config.php -i
 sudo sed 's/localhost/team2sql-whynot.mysql.database.azure.com/g' /var/www/html/wp-config.php -i
-DBNAME="db-wordpress"
+#DBNAME="db-wordpress"
 sudo getenforce
 sudo sed 's/SELINUX=permissive/SELINUX=enforcing/g' /etc/sysconfig/selinux -i
 sudo setenforce 0
