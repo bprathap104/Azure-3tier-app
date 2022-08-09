@@ -1,4 +1,4 @@
-# Team2 07/28/2022  @ Devopscyber
+# Team2 07/28/2022  @Devops
 Team members:
 Bercem Turk
 Alex Tsiasto
@@ -27,7 +27,7 @@ Use Terraform to provision an Azure virtual machine scale set running Wordpress.
 
 * Login to your Azure Cloud Provider  
 * Select Billing Account under hamburger menu 
-* Create a Billing Account For ex: in this project we created  used Yusuf Acoount billing
+* Create a Billing Account For ex: in this project we used Omar Acoount billing
 
 
 
@@ -350,13 +350,37 @@ data "azurerm_mysql_server" "wordpress" {
 
  
 
-# OUTPUT.TF
+# OUTPUT.TF#Customdata.tpl
 Output values make information about your infrastructure available on the command line, and can expose information for other Terraform configurations to use. Output values are similar to return values in programming languages.
 
 ```
 output "application_public_address" {
   value = azurerm_public_ip.wordpress.fqdn
 }
+#CUTOMDATA.TPL
+Customdata installing httpd and wordpress to our instances so in siple terms with using customdata(userdata) for BOOTSTRAPING
+
+#!/bin/bash
+sudo yum install httpd wget unzip epel-release mysql -y
+sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+sudo yum -y install yum-utils
+sudo yum-config-manager --enable remi-php56   [Install PHP 5.6]
+sudo yum -y install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo
+sudo wget https://wordpress.org/latest.tar.gz
+sudo tar -xf latest.tar.gz -C /var/www/html/
+sudo mv /var/www/html/wordpress/* /var/www/html/
+sudo cp /var/www/html/wp-config-sample.php  /var/www/html/wp-config.php 
+sudo sed 's/database_name_here/db-wordpress/g' /var/www/html/wp-config.php -i
+sudo sed 's/username_here/wordpress@team2sql-whynot/g' /var/www/html/wp-config.php -i
+sudo sed 's/password_here/W0rdpr3ss@p4ss/g' /var/www/html/wp-config.php -i
+sudo sed 's/localhost/team2sql-whynot.mysql.database.azure.com/g' /var/www/html/wp-config.php -i
+DBNAME="db-wordpress"
+sudo getenforce
+sudo sed 's/SELINUX=permissive/SELINUX=enforcing/g' /etc/sysconfig/selinux -i
+sudo setenforce 0
+sudo chown -R apache:apache /var/www/html/
+sudo systemctl start httpd
+sudo systemctl enable httpd
 ```
 
  
