@@ -9,7 +9,7 @@ variable "tags" {
   type        = map(string)
 
   default = {
-    environment = "Test"
+    environment = "DevOps"
   }
 }
 
