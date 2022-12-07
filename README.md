@@ -355,6 +355,8 @@ Output values make information about your infrastructure available on the comman
 output "application_public_address" {
   value = azurerm_public_ip.wordpress.fqdn
 }
+
+
 #CUTOMDATA.TPL
 Customdata installing httpd and wordpress to our instances so in siple terms with using customdata(userdata) for BOOTSTRAPING
 
